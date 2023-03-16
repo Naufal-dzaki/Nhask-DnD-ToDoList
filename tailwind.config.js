@@ -9,6 +9,7 @@ module.exports = {
         "nhask-secondary": "#9CB0A4",
         "nhask-bg-primary": "#2F4858",
         "nhask-bg-secondary": "#263D4D",
+        "nhask-bg-secondary-4/5": "rgba(38, 61, 77, 0.8)",
         "nhask-danger": "#FC5555",
         "nhask-alert": "#F0BD38",
         "nhask-normal": "#30B2DB",

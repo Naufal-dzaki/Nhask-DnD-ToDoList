@@ -5,29 +5,41 @@ import {
 } from "@heroicons/react/24/outline";
 import TaskCard from "./TaskCard";
 import BasicButton from "../Forms/Button/BasicButton";
+import Droppable from "./DragAndDrop/Droppable";
 import PerfectScrollbar from "react-perfect-scrollbar";
 // import "react-perfect-scrollbar/dist/css/styles.css";
 import "./PerfectScrollBar.css";
 
 const TaskContainer = ({
-  TaskContainerTitle,
-  TaskContainerStatus,
+  TaskContainerData,
   isShowCreate,
   setIsShowCreate,
   TaskData,
+  setTaskData,
   handleClickDetail,
 }) => {
+  const handleDrop = (item, monitor, state, containerStatus) => {
+    if (state.find((each) => each.id === item.id)) return;
+
+    // change status
+    setTaskData((prev) => {
+      return prev.map((task) =>
+        task.id === item.id ? { ...task, status: containerStatus } : task
+      );
+    });
+  };
+
   const handleClickCreate = () => {
     if (isShowCreate) setIsShowCreate(false);
     else setIsShowCreate(true);
   };
 
-  const IconTaskContainer = () => {
-    if (TaskContainerStatus === "to-do") {
+  const handleIconTaskContainer = () => {
+    if (TaskContainerData.status === "to-do") {
       return (
         <ClipboardDocumentListIcon className="w-6 h-6 text-nhask-primary" />
       );
-    } else if (TaskContainerStatus === "on-progress") {
+    } else if (TaskContainerData.status === "on-progress") {
       return (
         <div className="grid w-6 h-6 place-content-center">
           <svg
@@ -54,7 +66,7 @@ const TaskContainer = ({
           </svg>
         </div>
       );
-    } else if (TaskContainerStatus === "completed") {
+    } else if (TaskContainerData.status === "completed") {
       return (
         <ClipboardDocumentCheckIcon className="w-6 h-6 text-nhask-primary" />
       );
@@ -64,14 +76,17 @@ const TaskContainer = ({
   };
 
   return (
-    <div
-      className={`flex flex-col mx-auto justify-between min-w-[308px] w-full max-w-md min-h-[164px] max-h-[85vh] bg-nhask-bg-secondary rounded-2xl ${
-        TaskContainerStatus === "to-do" ? "p-1" : "px-1 pt-1 pb-5"
-      }`}>
+    <Droppable
+      accept={"drag-1"}
+      handleDrop={handleDrop}
+      state={TaskData.filter(
+        (value) => value.status === TaskContainerData.status
+      )}
+      containerStatus={TaskContainerData.status}>
       <div className="flex items-center px-4 pb-2 pt-4">
-        {IconTaskContainer(TaskContainerStatus)}
+        {handleIconTaskContainer(TaskContainerData.status)}
         <h1 className="text-nhask-primary text-xl ml-3">
-          {TaskContainerTitle}
+          {TaskContainerData.title}
         </h1>
       </div>
       <PerfectScrollbar
@@ -81,18 +96,21 @@ const TaskContainer = ({
           handlers: ["click-rail", "drag-thumb", "keyboard", "wheel", "touch"],
         }}>
         <div className="flex flex-col px-5 pb-1 mt-2">
-          {TaskData.filter((value) => value.status === TaskContainerStatus).map(
-            (value) => (
-              <TaskCard
-                key={value.id}
-                DetailTaskData={value}
-                handleClickDetail={handleClickDetail}
-              />
-            )
-          )}
+          {TaskData.filter(
+            (value) => value.status === TaskContainerData.status
+          ).map((value) => (
+            <TaskCard
+              key={value.id}
+              TaskData={TaskData.filter(
+                (value) => value.status === TaskContainerData.status
+              )}
+              DetailTaskData={value}
+              handleClickDetail={handleClickDetail}
+            />
+          ))}
         </div>
       </PerfectScrollbar>
-      {TaskContainerStatus === "to-do" && (
+      {TaskContainerData.status === "to-do" && (
         <div className="mx-4 mb-4 mt-2">
           <BasicButton
             handleOnClickEvent={handleClickCreate}
@@ -100,7 +118,7 @@ const TaskContainer = ({
           />
         </div>
       )}
-    </div>
+    </Droppable>
   );
 };
 

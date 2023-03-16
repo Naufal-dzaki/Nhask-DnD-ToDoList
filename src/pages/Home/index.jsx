@@ -5,6 +5,8 @@ import FormTask from "../../components/Modal/FormTask";
 import DetailTask from "../../components/Modal/DetailTask";
 import TaskContainer from "../../components/Task/TaskContainer";
 import { Bars3Icon } from "@heroicons/react/24/outline";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import "./PerfectScrollbar.css";
@@ -116,12 +118,13 @@ const dummyTaskContainer = {
 };
 
 const Home = () => {
+  const [taskData, setTaskData] = useState(dummyTask.data);
+  const TaskContainerData = dummyTaskContainer.data;
   const [isShowCreate, setIsShowCreate] = useState(false);
   const [isShowUpdate, setIsShowUpdate] = useState(false);
   const [isShowDetail, setIsShowDetail] = useState(false);
   const [updateData, setUpdateData] = useState([]);
   const [detailData, setDetailData] = useState([]);
-  const [taskData, setTaskData] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // useEffect(() => {
@@ -151,11 +154,11 @@ const Home = () => {
   //   })();
   // }, []);
 
-  useEffect(() => {
-    getData();
-  }, []);
+  // useEffect(() => {
+  //   getData();
+  // }, []);
 
-  console.log(taskData);
+  // console.log(taskData);
 
   // useEffect(() => {
   //   getData();
@@ -169,16 +172,16 @@ const Home = () => {
   //   setTaskData(value);
   // };
 
-  const getData = async () => {
-    await axios
-      .get(`https://5405-180-253-163-31.ap.ngrok.io/api/aktivitas`)
-      .then((res) => {
-        setTaskData(res.data);
-      })
-      .catch(() => {
-        console.log("error");
-      });
-  };
+  // const getData = async () => {
+  //   await axios
+  //     .get(`https://5405-180-253-163-31.ap.ngrok.io/api/aktivitas`)
+  //     .then((res) => {
+  //       setTaskData(res.data);
+  //     })
+  //     .catch(() => {
+  //       console.log("error");
+  //     });
+  // };
 
   const handleClickUpdates = (value) => {
     setUpdateData(value);
@@ -196,10 +199,6 @@ const Home = () => {
     if (isSidebarOpen) setIsSidebarOpen(true);
     else setIsSidebarOpen(true);
   };
-
-  const data = dummyTask.data;
-
-  const TaskContainerData = dummyTaskContainer.data;
 
   return (
     <div className="min-h-screen bg-nhask-bg-primary">
@@ -248,21 +247,23 @@ const Home = () => {
               onClick={handleShowSidebar}
             />
           </div>
-
-          <div className="min-[1224px]:pl-72 pt-0 min-[1224px]:pt-8 pb-6 grid grid-cols-1 min-[672px]:grid-cols-2 min-[952px]:grid-cols-3 gap-y-6 gap-8 px-8 justify-items-center">
-            {TaskContainerData.map((value) => (
-              <div key={value.id} className="w-full">
+          <DndProvider backend={HTML5Backend}>
+            <div className="min-[1224px]:pl-72 pt-0 min-[1224px]:pt-8 pb-6 grid grid-cols-1 min-[672px]:grid-cols-2 min-[952px]:grid-cols-3 gap-y-6 gap-8 px-8 justify-items-center">
+              {TaskContainerData.map((value) => (
                 <TaskContainer
+                  key={value.id}
+                  TaskContainerData={value}
                   TaskContainerTitle={value.title}
                   TaskContainerStatus={value.status}
+                  TaskData={taskData}
+                  setTaskData={setTaskData}
                   isShowCreate={isShowCreate}
                   setIsShowCreate={setIsShowCreate}
-                  TaskData={data}
                   handleClickDetail={handleClickDetail}
                 />
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </DndProvider>
         </div>
       </PerfectScrollbar>
     </div>

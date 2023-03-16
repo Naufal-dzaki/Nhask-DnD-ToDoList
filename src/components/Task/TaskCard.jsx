@@ -3,8 +3,9 @@ import Warning from "./Alert/Warning";
 import Danger from "./Alert/Danger";
 import DateFormat from "../../utils/DateFormat";
 import CheckExpiredDate from "../../utils/CheckExpiredDate";
+import Draggable from "./DragAndDrop/Draggable";
 
-const TaskCard = ({ DetailTaskData, handleClickDetail }) => {
+const TaskCard = ({ DetailTaskData, TaskData, handleClickDetail }) => {
   const CheckStatusExpired = (expiredDate) => {
     if (CheckExpiredDate(expiredDate) === "on this date") {
       return "text-nhask-alert";
@@ -36,9 +37,12 @@ const TaskCard = ({ DetailTaskData, handleClickDetail }) => {
   };
 
   return (
-    <div
-      className="relative flex w-full bg-nhask-bg-primary rounded-xl py-[10px] px-4 items-center mb-4 cursor-pointer"
-      onClick={() => handleClickDetail(DetailTaskData)}>
+    <Draggable
+      type={"drag-1"}
+      item={DetailTaskData}
+      state={TaskData}
+      handleOnClick={handleClickDetail}
+      parameter={DetailTaskData}>
       {CheckExpiredDate(DetailTaskData.deadline) === "on this date" && (
         <Warning />
       )}
@@ -46,6 +50,7 @@ const TaskCard = ({ DetailTaskData, handleClickDetail }) => {
         <Danger />
       )}
       <svg
+        className="cursor-grab"
         xmlns="http://www.w3.org/2000/svg"
         width="12"
         height="20"
@@ -85,7 +90,7 @@ const TaskCard = ({ DetailTaskData, handleClickDetail }) => {
           </p>
         </div>
       </div>
-    </div>
+    </Draggable>
   );
 };
 
