@@ -19,7 +19,7 @@ function Droppable({ accept, handleDrop, children, state, containerStatus }) {
 
   return (
     <div
-      className={`flex flex-col mx-auto justify-between min-w-[308px] w-full max-w-md min-h-[164px] max-h-[85vh] rounded-2xl ${
+      className={`flex flex-col mx-auto justify-between min-w-[308px] w-full max-w-md min-h-[164px] h-fit max-h-[85vh] rounded-2xl ${
         containerStatus === "to-do" ? "p-1" : "px-1 pt-1 pb-5"
       } ${isActive ? "bg-nhask-bg-secondary-4/5" : "bg-nhask-bg-secondary"} `}
       //  active dnd ${!isActive && canDrop && "bg-blue-200"}

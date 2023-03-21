@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import BasicInput from "../Forms/Input/BasicInput";
+import BasicButton from "../Forms/Button/BasicButton";
 import DatePickerComponent from "../Forms/Input/DatePickerComponent";
 import LevelPriorityComponent from "../Forms/Input/LevelPriorityComponent";
 import TextAreaComponent from "../Forms/Input/TextAreaComponent";
@@ -12,6 +13,8 @@ const FormTask = ({
   data,
   formTitle,
   isUpdateForm,
+  setTaskData,
+  taskData,
 }) => {
   const [title, setTitle] = useState(isUpdateForm ? data.title : "");
   const [deadLine, setDeadLine] = useState(
@@ -26,19 +29,48 @@ const FormTask = ({
 
   const containerRef = useRef();
 
-  // useEffect(() => {
-  //   let handler = (e) => {
-  //     if (!containerRef.current.contains(e.target)) {
-  //       setIsShowForm(false);
-  //     }
-  //   };
+  const HandleAddTask = () => {
+    if (title || deadLine || levelPriority || description) {
+      let number = taskData.length + 1;
+      setTaskData([
+        ...taskData,
+        {
+          id: number,
+          title: title,
+          status: "to-do",
+          deadline: deadLine,
+          level: levelPriority,
+          description: description,
+        },
+      ]);
+      setTitle("");
+      setDeadLine("");
+      setLevelPriority(null);
+      setDescription("");
+      setIsShowForm(false);
+    }
+  };
 
-  //   document.addEventListener("mousedown", handler);
-
-  //   return () => {
-  //     document.removeEventListener("mousedown", handler);
-  //   };
-  // });
+  const HandleUpdateTask = () => {
+    setTaskData(
+      taskData.map((task) =>
+        task.id === data.id
+          ? {
+              ...task,
+              title: title,
+              deadline: deadLine,
+              level: levelPriority,
+              description: description,
+            }
+          : task
+      )
+    );
+    setTitle("");
+    setDeadLine("");
+    setLevelPriority(null);
+    setDescription("");
+    setIsShowForm(false);
+  };
 
   const handleClose = () => {
     if (isShowForm) setIsShowForm(false);
@@ -47,7 +79,7 @@ const FormTask = ({
   return (
     <div
       className={`${
-        isShowForm ? `opacity-100 z-20 ease-in` : `hidden -z-20 ease-out`
+        isShowForm ? `opacity-100 z-40 ease-in` : `hidden -z-20 ease-out`
       } transition duration-150 bg-nhask-black-1/5 backdrop-blur-[2px] w-full h-full fixed inset-0`}>
       <div
         className="fixed p-5 md:p-6 -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 bg-nhask-bg-primary rounded-2xl w-[80vw] max-w-[564px] shadow-md"
@@ -94,9 +126,17 @@ const FormTask = ({
             placeHolder={`Write your task's description`}
           />
         </div>
-        <button className="px-3 py-2 mr-2 text-sm font-medium rounded-md text-nhask-text bg-nhask-primary drop-shadow-sm">
-          Create Task
-        </button>
+        {isUpdateForm ? (
+          <BasicButton
+            text={"Update Task"}
+            handleOnClickEvent={HandleUpdateTask}
+          />
+        ) : (
+          <BasicButton
+            text={"Create Task"}
+            handleOnClickEvent={HandleAddTask}
+          />
+        )}
       </div>
     </div>
   );

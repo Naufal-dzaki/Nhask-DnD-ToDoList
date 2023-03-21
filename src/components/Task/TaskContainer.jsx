@@ -7,7 +7,6 @@ import TaskCard from "./TaskCard";
 import BasicButton from "../Forms/Button/BasicButton";
 import Droppable from "./DragAndDrop/Droppable";
 import PerfectScrollbar from "react-perfect-scrollbar";
-// import "react-perfect-scrollbar/dist/css/styles.css";
 import "./PerfectScrollBar.css";
 
 const TaskContainer = ({
@@ -89,27 +88,37 @@ const TaskContainer = ({
           {TaskContainerData.title}
         </h1>
       </div>
-      <PerfectScrollbar
-        options={{
-          suppressScrollX: true,
-          wheelPropagation: false,
-          handlers: ["click-rail", "drag-thumb", "keyboard", "wheel", "touch"],
-        }}>
-        <div className="flex flex-col px-5 pb-1 mt-2">
-          {TaskData.filter(
-            (value) => value.status === TaskContainerData.status
-          ).map((value) => (
-            <TaskCard
-              key={value.id}
-              TaskData={TaskData.filter(
-                (value) => value.status === TaskContainerData.status
-              )}
-              DetailTaskData={value}
-              handleClickDetail={handleClickDetail}
-            />
-          ))}
-        </div>
-      </PerfectScrollbar>
+      {TaskData.filter(
+        (value) => value.status === TaskContainerData.status
+      ) && (
+        <PerfectScrollbar
+          options={{
+            suppressScrollX: true,
+            wheelPropagation: false,
+            handlers: [
+              "click-rail",
+              "drag-thumb",
+              "keyboard",
+              "wheel",
+              "touch",
+            ],
+          }}>
+          <div className="flex flex-col px-5 pb-1 mt-2">
+            {TaskData.filter(
+              (value) => value.status === TaskContainerData.status
+            ).map((value, index) => (
+              <TaskCard
+                key={index}
+                TaskData={TaskData.filter(
+                  (value) => value.status === TaskContainerData.status
+                )}
+                DetailTaskData={value}
+                handleClickDetail={handleClickDetail}
+              />
+            ))}
+          </div>
+        </PerfectScrollbar>
+      )}
       {TaskContainerData.status === "to-do" && (
         <div className="mx-4 mb-4 mt-2">
           <BasicButton

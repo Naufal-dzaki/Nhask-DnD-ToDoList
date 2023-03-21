@@ -13,10 +13,6 @@ function Draggable({ children, type, item, state, handleOnClick, parameter }) {
     [state]
   );
 
-  //   if (isDragging && hideWhenDrag) {
-  //     return <div ref={drag}></div>;
-  //   }
-
   return (
     <span
       className={`relative flex w-full bg-nhask-bg-primary rounded-xl py-[10px] px-4 items-center mb-4 cursor-pointer ${

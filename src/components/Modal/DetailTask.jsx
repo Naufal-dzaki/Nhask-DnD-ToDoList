@@ -7,6 +7,8 @@ const DetailTask = ({
   setIsShowDetail,
   data,
   handleClickUpdates,
+  setTaskData,
+  taskData,
 }) => {
   const handleClose = () => {
     if (isShowDetail) setIsShowDetail(false);
@@ -30,6 +32,11 @@ const DetailTask = ({
     } else if (level <= 9) {
       return level - 6;
     }
+  };
+
+  const handleDeleteTask = () => {
+    setTaskData(taskData.filter((task) => task.id !== data.id));
+    setIsShowDetail(!isShowDetail);
   };
 
   return (
@@ -76,7 +83,7 @@ const DetailTask = ({
           </button>
           <button
             className="flex items-center px-3 py-2 mr-2 text-sm font-medium rounded-md text-nhask-text bg-nhask-danger drop-shadow-sm"
-            onClick={() => handleClickUpdates(data)}>
+            onClick={() => handleDeleteTask()}>
             <TrashIcon className="w-4 h-4 mr-1 text-nhask-text" />
             Delete Task
           </button>

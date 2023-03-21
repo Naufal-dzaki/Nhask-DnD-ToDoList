@@ -19,14 +19,11 @@ const DatePickerComponent = ({ label, value, setValue }) => {
               disableFuture={false}
               disablePast={true}
               label=""
-              // openTo="year"
               views={["year", "month", "day"]}
               value={value}
               onChange={(newValue) => {
                 setValue(newValue);
               }}
-              // PopperProps={{
-              // }}
               renderInput={(params) => (
                 <TextField
                   {...params}

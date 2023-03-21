@@ -123,6 +123,7 @@ const Home = () => {
   const [isShowCreate, setIsShowCreate] = useState(false);
   const [isShowUpdate, setIsShowUpdate] = useState(false);
   const [isShowDetail, setIsShowDetail] = useState(false);
+  const [newTaskData, setNewTaskData] = useState([]);
   const [updateData, setUpdateData] = useState([]);
   const [detailData, setDetailData] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -213,6 +214,8 @@ const Home = () => {
           setIsShowForm={setIsShowCreate}
           formTitle={"Create Task"}
           isUpdateForm={false}
+          setTaskData={setTaskData}
+          taskData={taskData}
         />
       )}
       {isShowUpdate && (
@@ -222,6 +225,8 @@ const Home = () => {
           setIsShowForm={setIsShowUpdate}
           formTitle={"Update Task"}
           isUpdateForm={true}
+          setTaskData={setTaskData}
+          taskData={taskData}
         />
       )}
       {isShowDetail && (
@@ -230,6 +235,8 @@ const Home = () => {
           isShowDetail={isShowDetail}
           setIsShowDetail={setIsShowDetail}
           handleClickUpdates={handleClickUpdates}
+          setTaskData={setTaskData}
+          taskData={taskData}
         />
       )}
       {/* end pop up */}
@@ -249,9 +256,9 @@ const Home = () => {
           </div>
           <DndProvider backend={HTML5Backend}>
             <div className="min-[1224px]:pl-72 pt-0 min-[1224px]:pt-8 pb-6 grid grid-cols-1 min-[672px]:grid-cols-2 min-[952px]:grid-cols-3 gap-y-6 gap-8 px-8 justify-items-center">
-              {TaskContainerData.map((value) => (
+              {TaskContainerData.map((value, index) => (
                 <TaskContainer
-                  key={value.id}
+                  key={index}
                   TaskContainerData={value}
                   TaskContainerTitle={value.title}
                   TaskContainerStatus={value.status}
