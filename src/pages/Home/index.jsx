@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
+// useEffect
+// import axios from "axios";
 import SideBar from "../../components/SideBar";
 import FormTask from "../../components/Modal/FormTask";
 import DetailTask from "../../components/Modal/DetailTask";
@@ -123,72 +124,9 @@ const Home = () => {
   const [isShowCreate, setIsShowCreate] = useState(false);
   const [isShowUpdate, setIsShowUpdate] = useState(false);
   const [isShowDetail, setIsShowDetail] = useState(false);
-  const [newTaskData, setNewTaskData] = useState([]);
   const [updateData, setUpdateData] = useState([]);
   const [detailData, setDetailData] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-  // useEffect(() => {
-  //   fetch("https://5405-180-253-163-31.ap.ngrok.io/api/aktivitas", {
-  //     mode: "no-cors",
-  //   })
-  //     .then((response) => response.json())
-  //     .then((json) => console.log(json));
-  // }, []);
-
-  // useEffect(() => {
-  //   axios
-  //     .get("https://5405-180-253-163-31.ap.ngrok.io/api/aktivitas")
-  //     .then((response) => console.log(response));
-  // }, []);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       const result = await axios.get(
-  //         "https://5405-180-253-163-31.ap.ngrok.io/api/aktivitas"
-  //       );
-  //       console.log(result.data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   })();
-  // }, []);
-
-  // useEffect(() => {
-  //   getData();
-  // }, []);
-
-  // console.log(taskData);
-
-  // useEffect(() => {
-  //   getData();
-  // }, []);
-
-  // const getData = async () => {
-  //   const harga = await fetch(
-  //     "https://5405-180-253-163-31.ap.ngrok.io/api/aktivitas"
-  //   );
-  //   const value = await harga.json();
-  //   setTaskData(value);
-  // };
-
-  // const getData = async () => {
-  //   await axios
-  //     .get(`https://5405-180-253-163-31.ap.ngrok.io/api/aktivitas`)
-  //     .then((res) => {
-  //       setTaskData(res.data);
-  //     })
-  //     .catch(() => {
-  //       console.log("error");
-  //     });
-  // };
-
-  const handleClickUpdates = (value) => {
-    setUpdateData(value);
-    if (isShowDetail) setIsShowDetail(false);
-    setIsShowUpdate(true);
-  };
 
   const handleClickDetail = (value) => {
     setDetailData(value);
@@ -207,6 +145,7 @@ const Home = () => {
         setIsSidebarOpen={setIsSidebarOpen}
         isSidebarOpen={isSidebarOpen}
       />
+
       {/* pop up */}
       {isShowCreate && (
         <FormTask
@@ -234,7 +173,8 @@ const Home = () => {
           data={detailData}
           isShowDetail={isShowDetail}
           setIsShowDetail={setIsShowDetail}
-          handleClickUpdates={handleClickUpdates}
+          setIsShowUpdate={setIsShowUpdate}
+          setUpdateData={setUpdateData}
           setTaskData={setTaskData}
           taskData={taskData}
         />

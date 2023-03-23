@@ -1,14 +1,16 @@
 import React from "react";
 import { XMarkIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import DateFormat from "../../utils/DateFormat";
+import BasicButton from "../Forms/Button/BasicButton";
 
 const DetailTask = ({
   isShowDetail,
   setIsShowDetail,
-  data,
-  handleClickUpdates,
+  setIsShowUpdate,
+  setUpdateData,
   setTaskData,
   taskData,
+  data,
 }) => {
   const handleClose = () => {
     if (isShowDetail) setIsShowDetail(false);
@@ -39,10 +41,16 @@ const DetailTask = ({
     setIsShowDetail(!isShowDetail);
   };
 
+  const handleClickUpdates = () => {
+    setUpdateData(data);
+    if (isShowDetail) setIsShowDetail(false);
+    setIsShowUpdate(true);
+  };
+
   return (
     <div
       className={`${
-        isShowDetail ? `opacity-100 z-20 ease-in` : `opacity-0 -z-20 ease-out`
+        isShowDetail ? `opacity-100 z-40 ease-in` : `opacity-0 -z-20 ease-out`
       } transition ease-in duration-150 bg-nhask-black-1/5 backdrop-blur-[2px] w-full h-full fixed inset-0`}>
       <div className="fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bg-nhask-bg-primary p-5 md:p-6 rounded-2xl w-[80vw] md:max-w-[564px] shadow-md">
         <div className="flex justify-between mb-1">
@@ -75,18 +83,14 @@ const DetailTask = ({
         </div>
         <p className="mb-5 text-base text-nhask-text">{data.description}</p>
         <div className="flex gap-2">
-          <button
-            className="flex items-center px-3 py-2 mr-2 text-sm font-medium rounded-md text-nhask-text bg-nhask-alert drop-shadow-sm"
-            onClick={() => handleClickUpdates(data)}>
+          <BasicButton handleOnClickEvent={handleClickUpdates} tipe={"warning"}>
             <PencilIcon className="w-4 h-4 mr-1 text-nhask-text" />
             Edit Task
-          </button>
-          <button
-            className="flex items-center px-3 py-2 mr-2 text-sm font-medium rounded-md text-nhask-text bg-nhask-danger drop-shadow-sm"
-            onClick={() => handleDeleteTask()}>
+          </BasicButton>
+          <BasicButton handleOnClickEvent={handleDeleteTask} tipe={"danger"}>
             <TrashIcon className="w-4 h-4 mr-1 text-nhask-text" />
             Delete Task
-          </button>
+          </BasicButton>
         </div>
       </div>
     </div>

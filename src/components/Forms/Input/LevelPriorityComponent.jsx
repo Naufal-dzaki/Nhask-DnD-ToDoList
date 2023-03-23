@@ -28,20 +28,6 @@ const LevelPriorityComponent = ({ label, value, setValue }) => {
             />
           );
         })}
-        {/* <span
-          className={`${
-            value >= 1 ? "bg-nhask-normal" : "bg-nhask-secondary"
-          }  w-full h-[10px] rounded-full cursor-pointer`}
-          onClick={() => {
-            setValue(1);
-          }}></span>
-        <span
-          className={`${
-            value >= 2 ? "bg-nhask-normal" : "bg-nhask-secondary"
-          } w-full h-[10px] rounded-full cursor-pointer`}
-          onClick={() => {
-            setValue(2);
-          }}></span> */}
       </div>
     </div>
   );

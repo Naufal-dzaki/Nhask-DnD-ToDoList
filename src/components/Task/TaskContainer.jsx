@@ -121,10 +121,9 @@ const TaskContainer = ({
       )}
       {TaskContainerData.status === "to-do" && (
         <div className="mx-4 mb-4 mt-2">
-          <BasicButton
-            handleOnClickEvent={handleClickCreate}
-            text={"add Task"}
-          />
+          <BasicButton handleOnClickEvent={handleClickCreate} tipe={"default"}>
+            Add Task
+          </BasicButton>
         </div>
       )}
     </Droppable>

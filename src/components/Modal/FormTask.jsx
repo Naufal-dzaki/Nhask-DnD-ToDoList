@@ -127,15 +127,13 @@ const FormTask = ({
           />
         </div>
         {isUpdateForm ? (
-          <BasicButton
-            text={"Update Task"}
-            handleOnClickEvent={HandleUpdateTask}
-          />
+          <BasicButton handleOnClickEvent={HandleUpdateTask} tipe={"default"}>
+            Update Task
+          </BasicButton>
         ) : (
-          <BasicButton
-            text={"Create Task"}
-            handleOnClickEvent={HandleAddTask}
-          />
+          <BasicButton handleOnClickEvent={HandleAddTask} tipe={"default"}>
+            Create Task
+          </BasicButton>
         )}
       </div>
     </div>
