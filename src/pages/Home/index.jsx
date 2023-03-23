@@ -16,82 +16,46 @@ const dummyTask = {
   data: [
     {
       id: 1,
-      title: "Create UI Design",
+      title: "Fetch API from Backend",
       status: "to-do",
-      deadline: "2023-02-12",
-      level: "8",
+      deadline: "2023-03-30",
+      level: "5",
       description:
         "Nunc lorem augue, scelerisque ut erat sed, pharetra porta ligula. Morbi augue ligula, viverra eu feugiat eu, fermentum nec tortor. Vivamus rutrum at metus nec hendrerit. Duis nec dignissim velit, ac efficitur massa. Sed in mollis odio. ",
     },
     {
       id: 2,
       title: "Create API",
-      status: "to-do",
-      deadline: "2023-03-06",
-      level: "3",
+      status: "on-progress",
+      deadline: "2023-03-29",
+      level: "6",
       description:
         "Nunc lorem augue, scelerisque ut erat sed, pharetra porta ligula. Morbi augue ligula, viverra eu feugiat eu, fermentum nec tortor. Vivamus rutrum at metus nec hendrerit. Duis nec dignissim velit, ac efficitur massa. Sed in mollis odio. ",
     },
     {
       id: 3,
-      title: "slicing home page",
-      status: "to-do",
-      deadline: "2023-03-17",
-      level: "1",
-      description:
-        "Nunc lorem augue, scelerisque ut erat sed, pharetra porta ligula. Morbi augue ligula, viverra eu feugiat eu, fermentum nec tortor. Vivamus rutrum at metus nec hendrerit. Duis nec dignissim velit, ac efficitur massa. Sed in mollis odio. ",
-    },
-    {
-      id: 4,
-      title: "fix bug drag and drop card to-do",
-      status: "to-do",
-      deadline: "2023-02-07",
-      level: "9",
-      description:
-        "Nunc lorem augue, scelerisque ut erat sed, pharetra porta ligula. Morbi augue ligula, viverra eu feugiat eu, fermentum nec tortor. Vivamus rutrum at metus nec hendrerit. Duis nec dignissim velit, ac efficitur massa. Sed in mollis odio. ",
-    },
-    {
-      id: 5,
-      title: "filter status api for task to do drag and drop to-do list nhask",
-      status: "on-progress",
-      deadline: "2023-03-08",
-      level: "7",
-      description:
-        "Nunc lorem augue, scelerisque ut erat sed, pharetra porta ligula. Morbi augue ligula, viverra eu feugiat eu, fermentum nec tortor. Vivamus rutrum at metus nec hendrerit. Duis nec dignissim velit, ac efficitur massa. Sed in mollis odio. ",
-    },
-    {
-      id: 6,
-      title: "fix token login",
-      status: "to-do",
-      deadline: "2023-01-10",
-      level: "3",
-      description:
-        "Nunc lorem augue, scelerisque ut erat sed, pharetra porta ligula. Morbi augue ligula, viverra eu feugiat eu, fermentum nec tortor. Vivamus rutrum at metus nec hendrerit. Duis nec dignissim velit, ac efficitur massa. Sed in mollis odio. ",
-    },
-    {
-      id: 7,
-      title: "fix token login",
-      status: "on-progress",
-      deadline: "2023-01-10",
+      title: "slicing UI",
+      status: "completed",
+      deadline: "2023-03-10",
       level: "5",
       description:
         "Nunc lorem augue, scelerisque ut erat sed, pharetra porta ligula. Morbi augue ligula, viverra eu feugiat eu, fermentum nec tortor. Vivamus rutrum at metus nec hendrerit. Duis nec dignissim velit, ac efficitur massa. Sed in mollis odio. ",
     },
     {
-      id: 8,
-      title: "fix token login",
-      status: "to-do",
-      deadline: "2023-01-10",
-      level: "4",
+      id: 4,
+      title: "Made the Feature Drag and Drop Work",
+      status: "completed",
+      deadline: "2023-03-20",
+      level: "8",
       description:
         "Nunc lorem augue, scelerisque ut erat sed, pharetra porta ligula. Morbi augue ligula, viverra eu feugiat eu, fermentum nec tortor. Vivamus rutrum at metus nec hendrerit. Duis nec dignissim velit, ac efficitur massa. Sed in mollis odio. ",
     },
     {
-      id: 9,
-      title: "fix token login",
-      status: "to-do",
-      deadline: "2023-01-10",
-      level: "3",
+      id: 5,
+      title: "Recap Task",
+      status: "completed",
+      deadline: "2023-03-23",
+      level: "2",
       description:
         "Nunc lorem augue, scelerisque ut erat sed, pharetra porta ligula. Morbi augue ligula, viverra eu feugiat eu, fermentum nec tortor. Vivamus rutrum at metus nec hendrerit. Duis nec dignissim velit, ac efficitur massa. Sed in mollis odio. ",
     },
