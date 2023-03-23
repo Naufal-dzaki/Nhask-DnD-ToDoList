@@ -144,6 +144,7 @@ const Home = () => {
       <SideBar
         setIsSidebarOpen={setIsSidebarOpen}
         isSidebarOpen={isSidebarOpen}
+        taskData={taskData}
       />
 
       {/* pop up */}

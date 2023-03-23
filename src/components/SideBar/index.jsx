@@ -6,11 +6,12 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/solid";
 import UserLogOut from "../Modal/UserLogOut";
+import CheckExpiredDate from "../../utils/CheckExpiredDate";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import "./index.css";
 
-const SideBar = ({ isSidebarOpen, setIsSidebarOpen }) => {
+const SideBar = ({ isSidebarOpen, setIsSidebarOpen, taskData }) => {
   const [isShowLogout, setIsShowLogout] = useState(false);
   const sideBarRef = useRef();
   const logoutRef = useRef();
@@ -95,7 +96,7 @@ const SideBar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                 </h2>
                 <div className="flex">
                   <span className="w-1 mr-2 rounded-full h-7 bg-nhask-primary" />
-                  <p className="text-xl text-nhask-text">20</p>
+                  <p className="text-xl text-nhask-text">{taskData.length}</p>
                 </div>
               </div>
               <div className="mb-5">
@@ -104,7 +105,12 @@ const SideBar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                 </h2>
                 <div className="flex">
                   <span className="w-1 mr-2 rounded-full h-7 bg-nhask-normal" />
-                  <p className="text-xl text-nhask-text">20</p>
+                  <p className="text-xl text-nhask-text">
+                    {
+                      taskData.filter((task) => task.status === "completed")
+                        .length
+                    }
+                  </p>
                 </div>
               </div>
               <div className="mb-5">
@@ -113,7 +119,12 @@ const SideBar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                 </h2>
                 <div className="flex">
                   <span className="w-1 mr-2 rounded-full h-7 bg-nhask-alert" />
-                  <p className="text-xl text-nhask-text">20</p>
+                  <p className="text-xl text-nhask-text">
+                    {
+                      taskData.filter((task) => task.status === "on-progress")
+                        .length
+                    }
+                  </p>
                 </div>
               </div>
               <div className="mb-5">
@@ -122,7 +133,14 @@ const SideBar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                 </h2>
                 <div className="flex">
                   <span className="w-1 mr-2 rounded-full h-7 bg-nhask-danger" />
-                  <p className="text-xl text-nhask-text">20</p>
+                  <p className="text-xl text-nhask-text">
+                    {
+                      taskData.filter(
+                        (task) =>
+                          CheckExpiredDate(task.deadline) === "out of date"
+                      ).length
+                    }
+                  </p>
                 </div>
               </div>
             </div>
