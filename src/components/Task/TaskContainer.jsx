@@ -103,7 +103,7 @@ const TaskContainer = ({
               "touch",
             ],
           }}>
-          <div className="flex flex-col px-5 pb-1 mt-2">
+          <div className="flex flex-col px-5 py-1 mt-2">
             {TaskData.filter(
               (value) => value.status === TaskContainerData.status
             ).map((value, index) => (
