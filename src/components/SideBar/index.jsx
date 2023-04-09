@@ -11,7 +11,13 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import "./index.css";
 
-const SideBar = ({ isSidebarOpen, setIsSidebarOpen, taskData }) => {
+const SideBar = ({
+  isSidebarOpen,
+  setIsSidebarOpen,
+  taskData,
+  isLoading,
+  setIsLoading,
+}) => {
   const [isShowLogout, setIsShowLogout] = useState(false);
   const sideBarRef = useRef();
   const logoutRef = useRef();
@@ -41,7 +47,9 @@ const SideBar = ({ isSidebarOpen, setIsSidebarOpen, taskData }) => {
         isSidebarOpen
           ? "max-[1224px]:bg-nhask-black-1/5 max-[1224px]:backdrop-blur-[2px] w-full h-screen fixed inset-0 z-30"
           : "max-[1224px]:opacity-0 max-[1224px]:-z-30"
-      } min-[1224px]:left-0 top-0 min-[1224px]:w-fit min-[1224px]:bg-transparent transition-opacity ease-in duration-200`}>
+      } min-[1224px]:left-0 top-0 min-[1224px]:w-fit min-[1224px]:bg-transparent transition-opacity ease-in duration-200 ${
+        isLoading && "cursor-progress"
+      }`}>
       <div
         className={`bg-nhask-bg-secondary h-screen fixed p-2  ${
           isSidebarOpen ? "left-0" : "-left-full"
@@ -84,6 +92,8 @@ const SideBar = ({ isSidebarOpen, setIsSidebarOpen, taskData }) => {
                   setIsShowLogout={setIsShowLogout}
                   isShowLogout={isShowLogout}
                   logoutRef={logoutRef}
+                  isLoading={isLoading}
+                  setIsLoading={setIsLoading}
                 />
               </div>
             </div>

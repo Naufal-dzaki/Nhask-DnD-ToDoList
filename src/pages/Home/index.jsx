@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-// useEffect
-// import axios from "axios";
+import React, { useState, useEffect } from "react";
+import { Navigate } from "react-router-dom";
+import { getToken } from "../../utils/CookiesHooks";
 import SideBar from "../../components/SideBar";
 import FormTask from "../../components/Modal/FormTask";
 import DetailTask from "../../components/Modal/DetailTask";
@@ -91,6 +91,7 @@ const Home = () => {
   const [updateData, setUpdateData] = useState([]);
   const [detailData, setDetailData] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleClickDetail = (value) => {
     setDetailData(value);
@@ -103,12 +104,21 @@ const Home = () => {
     else setIsSidebarOpen(true);
   };
 
+  if (!getToken()) {
+    return <Navigate to={"/login"} />;
+  }
+
   return (
-    <div className="min-h-screen bg-nhask-bg-primary">
+    <div
+      className={`min-h-screen bg-nhask-bg-primary ${
+        isLoading && "cursor-progress"
+      }`}>
       <SideBar
         setIsSidebarOpen={setIsSidebarOpen}
         isSidebarOpen={isSidebarOpen}
         taskData={taskData}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
       />
 
       {/* pop up */}

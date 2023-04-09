@@ -1,11 +1,18 @@
+import { useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { API_URL } from "../../config/ApiUrl";
+import { setToken, getToken } from "../../utils/CookiesHooks";
 import FloatInputText from "../../components/Forms/Input/FloatInputText";
 import FloatInputPassword from "../../components/Forms/Input/FloatInputPassword";
-import { useState } from "react";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isShowPassword, setIsShowPassword] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const redirectLogin = useNavigate();
 
   const togglePassword = () => {
     if (isShowPassword) {
@@ -15,8 +22,49 @@ const Login = () => {
     }
   };
 
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    const data = {
+      email: email,
+      password: password,
+    };
+
+    await axios.get(`${API_URL}/sanctum/csrf-cookie`, {
+      withCredentials: true,
+    });
+
+    axios
+      .post(`${API_URL}/api/auth/login`, data, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        redirectLogin("/");
+        setIsLoading(false);
+        const token = response.data.token;
+        setToken(token);
+      })
+      .catch(() => {
+        setIsLoading(false);
+        setHasError(true);
+      });
+  };
+
+  const validator = () => {
+    if (email && password) return true;
+    else return false;
+  };
+
+  if (getToken()) {
+    return <Navigate to={"/"} />;
+  }
+
   return (
-    <div className="flex flex-col justify-center min-h-screen bg-nhask-bg-primary">
+    <div
+      className={`flex flex-col justify-center min-h-screen bg-nhask-bg-primary ${
+        isLoading && "cursor-progress"
+      }`}>
       <div className="w-full max-w-[520px] mx-auto px-[30px]">
         <div className="mb-6 text-center text-nhask-text">
           <h1 className="mb-6 text-2xl font-medium">
@@ -27,21 +75,48 @@ const Login = () => {
             web app
           </p>
         </div>
-        <div className="mb-6">
-          <FloatInputText label={"Email"} value={email} setValue={setEmail} />
-        </div>
-        <div className="mb-6">
-          <FloatInputPassword
-            label={"Password"}
-            isShowPassword={isShowPassword}
-            togglePassword={togglePassword}
-            password={password}
-            setPassword={setPassword}
-          />
-        </div>
-        <button className="bg-nhask-primary w-full py-4 rounded-[15px] text-nhask-text text-xl">
-          Login
-        </button>
+        <form onSubmit={handleLogin}>
+          <div className="mb-6">
+            <FloatInputText
+              label={"Email"}
+              value={email}
+              setValue={setEmail}
+              isLoading={isLoading}
+            />
+          </div>
+          <div className={`${hasError ? "mb-6" : "mb-[52px]"} flex-col`}>
+            <div className="mb-1">
+              <FloatInputPassword
+                label={"Password"}
+                isShowPassword={isShowPassword}
+                togglePassword={togglePassword}
+                password={password}
+                setPassword={setPassword}
+                isLoading={isLoading}
+              />
+            </div>
+            {hasError && (
+              <p className="text-nhask-danger text-base font-light">
+                Please enter the correct Email and Password
+              </p>
+            )}
+          </div>
+          {validator() ? (
+            <button
+              type="submit"
+              className={`bg-nhask-primary w-full py-4 rounded-[15px] text-nhask-text text-xl ${
+                isLoading ? "cursor-progress" : "cursor-pointer"
+              }`}>
+              Login
+            </button>
+          ) : (
+            <button
+              disabled
+              className="bg-nhask-muted w-full py-4 rounded-[15px] text-nhask-text text-xl cursor-not-allowed">
+              Login
+            </button>
+          )}
+        </form>
         <p className="mt-3 text-base text-center text-nhask-text">
           Don't have an account?{" "}
           <a href="/register" className="text-nhask-primary">

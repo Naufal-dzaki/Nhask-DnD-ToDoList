@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       colors: {
         "nhask-primary": "#3AB79E",
+        "nhask-muted": "#8DB7AE",
         "nhask-text": "#E4EADF",
         "nhask-secondary": "#9CB0A4",
         "nhask-bg-primary": "#2F4858",
