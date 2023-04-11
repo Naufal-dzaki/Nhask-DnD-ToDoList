@@ -116,10 +116,7 @@ const SideBar = ({
                 <div className="flex">
                   <span className="w-1 mr-2 rounded-full h-7 bg-nhask-normal" />
                   <p className="text-xl text-nhask-text">
-                    {
-                      taskData.filter((task) => task.status === "completed")
-                        .length
-                    }
+                    {taskData.filter((task) => task.status_id === 3).length}
                   </p>
                 </div>
               </div>
@@ -130,10 +127,7 @@ const SideBar = ({
                 <div className="flex">
                   <span className="w-1 mr-2 rounded-full h-7 bg-nhask-alert" />
                   <p className="text-xl text-nhask-text">
-                    {
-                      taskData.filter((task) => task.status === "on-progress")
-                        .length
-                    }
+                    {taskData.filter((task) => task.status_id === 2).length}
                   </p>
                 </div>
               </div>

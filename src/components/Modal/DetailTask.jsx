@@ -1,4 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
+import { TaskContext } from "../../pages/Home";
+import axios from "axios";
+import { API_URL } from "../../config/ApiUrl";
+import { getToken } from "../../utils/CookiesHooks";
 import { XMarkIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import DateFormat from "../../utils/DateFormat";
 import BasicButton from "../Forms/Button/BasicButton";
@@ -12,6 +16,8 @@ const DetailTask = ({
   taskData,
   data,
 }) => {
+  const { updateTask } = useContext(TaskContext);
+
   const handleClose = () => {
     if (isShowDetail) setIsShowDetail(false);
   };
@@ -37,9 +43,22 @@ const DetailTask = ({
   };
 
   const handleDeleteTask = () => {
-    setTaskData(taskData.filter((task) => task.id !== data.id));
-    setIsShowDetail(!isShowDetail);
+    axios
+      .delete(`${API_URL}/api/task/delete/${data.id}`, {
+        withCredentials: true,
+        headers: { Authorization: `Bearer ${getToken()}` },
+      })
+      .then((response) => {
+        console.log(response);
+        setIsShowDetail(!isShowDetail);
+      })
+      .catch((response) => console.log(response));
+    updateTask();
   };
+  // const handleDeleteTask = () => {
+  //   setTaskData(taskData.filter((task) => task.id !== data.id));
+  //   setIsShowDetail(!isShowDetail);
+  // };
 
   const handleClickUpdates = () => {
     setUpdateData(data);

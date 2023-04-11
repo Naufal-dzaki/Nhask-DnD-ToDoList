@@ -1,4 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
+import { TaskContext } from "../../pages/Home";
+import axios from "axios";
+import { getToken } from "../../utils/CookiesHooks";
+import { API_URL } from "../../config/ApiUrl";
 import {
   ClipboardDocumentListIcon,
   ClipboardDocumentCheckIcon,
@@ -17,15 +21,24 @@ const TaskContainer = ({
   setTaskData,
   handleClickDetail,
 }) => {
+  const { updateTask } = useContext(TaskContext);
+
   const handleDrop = (item, monitor, state, containerStatus) => {
     if (state.find((each) => each.id === item.id)) return;
 
-    // change status
-    setTaskData((prev) => {
-      return prev.map((task) =>
-        task.id === item.id ? { ...task, status: containerStatus } : task
-      );
-    });
+    axios
+      .put(
+        `${API_URL}/api/task/update/${item.id}`,
+        { status_id: containerStatus },
+        {
+          withCredentials: true,
+          headers: { Authorization: `Bearer ${getToken()}` },
+        }
+      )
+      .then((response) => console.log(response))
+      .catch((response) => console.log(response));
+
+    updateTask();
   };
 
   const handleClickCreate = () => {
@@ -79,17 +92,17 @@ const TaskContainer = ({
       accept={"drag-1"}
       handleDrop={handleDrop}
       state={TaskData.filter(
-        (value) => value.status === TaskContainerData.status
+        (value) => value.status_id === TaskContainerData.status_id
       )}
-      containerStatus={TaskContainerData.status}>
-      <div className="flex items-center px-4 pb-2 pt-4">
+      containerStatus={TaskContainerData.status_id}>
+      <div className="flex items-center px-4 pt-4 pb-2">
         {handleIconTaskContainer(TaskContainerData.status)}
-        <h1 className="text-nhask-primary text-xl ml-3">
+        <h1 className="ml-3 text-xl text-nhask-primary">
           {TaskContainerData.title}
         </h1>
       </div>
       {TaskData.filter(
-        (value) => value.status === TaskContainerData.status
+        (value) => value.status_id === TaskContainerData.status_id
       ) && (
         <PerfectScrollbar
           options={{
@@ -105,12 +118,12 @@ const TaskContainer = ({
           }}>
           <div className="flex flex-col px-5 py-1 mt-2">
             {TaskData.filter(
-              (value) => value.status === TaskContainerData.status
+              (value) => value.status_id === TaskContainerData.status_id
             ).map((value, index) => (
               <TaskCard
                 key={index}
                 TaskData={TaskData.filter(
-                  (value) => value.status === TaskContainerData.status
+                  (value) => value.status_id === TaskContainerData.status_id
                 )}
                 DetailTaskData={value}
                 handleClickDetail={handleClickDetail}
@@ -120,7 +133,7 @@ const TaskContainer = ({
         </PerfectScrollbar>
       )}
       {TaskContainerData.status === "to-do" && (
-        <div className="mx-4 mb-4 mt-2">
+        <div className="mx-4 mt-2 mb-4">
           <BasicButton handleOnClickEvent={handleClickCreate} tipe={"default"}>
             Add Task
           </BasicButton>

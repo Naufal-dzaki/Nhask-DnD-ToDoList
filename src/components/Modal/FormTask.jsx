@@ -1,4 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
+import { TaskContext } from "../../pages/Home";
+import axios from "axios";
+import { getToken } from "../../utils/CookiesHooks";
+import { API_URL } from "../../config/ApiUrl";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import BasicInput from "../Forms/Input/BasicInput";
 import BasicButton from "../Forms/Button/BasicButton";
@@ -6,6 +10,7 @@ import DatePickerComponent from "../Forms/Input/DatePickerComponent";
 import LevelPriorityComponent from "../Forms/Input/LevelPriorityComponent";
 import TextAreaComponent from "../Forms/Input/TextAreaComponent";
 import dayjs from "dayjs";
+import DateFormatNumber from "../../utils/DateFormatNumber";
 
 const FormTask = ({
   isShowForm,
@@ -26,50 +31,58 @@ const FormTask = ({
   const [description, setDescription] = useState(
     isUpdateForm ? data.description : ""
   );
+  const { updateTask } = useContext(TaskContext);
 
   const containerRef = useRef();
 
   const HandleAddTask = () => {
-    if (title || deadLine || levelPriority || description) {
-      let number = taskData.length + 1;
-      setTaskData([
-        ...taskData,
-        {
-          id: number,
-          title: title,
-          status: "to-do",
-          deadline: deadLine,
-          level: levelPriority,
-          description: description,
-        },
-      ]);
-      setTitle("");
-      setDeadLine("");
-      setLevelPriority(null);
-      setDescription("");
-      setIsShowForm(false);
-    }
+    const data = {
+      title: title,
+      deadline: DateFormatNumber(deadLine),
+      level: levelPriority,
+      description: description,
+    };
+
+    axios
+      .post(`${API_URL}/api/task/create`, data, {
+        withCredentials: true,
+        headers: { Authorization: `Bearer ${getToken()}` },
+      })
+      .then((response) => {
+        console.log(response);
+        setTitle("");
+        setDeadLine("");
+        setLevelPriority(null);
+        setDescription("");
+        setIsShowForm(false);
+      })
+      .catch((response) => console.log(response));
+    updateTask();
   };
 
   const HandleUpdateTask = () => {
-    setTaskData(
-      taskData.map((task) =>
-        task.id === data.id
-          ? {
-              ...task,
-              title: title,
-              deadline: deadLine,
-              level: levelPriority,
-              description: description,
-            }
-          : task
-      )
-    );
-    setTitle("");
-    setDeadLine("");
-    setLevelPriority(null);
-    setDescription("");
-    setIsShowForm(false);
+    const UpdateData = {
+      title: title,
+      deadline: DateFormatNumber(deadLine),
+      level: levelPriority,
+      description: description,
+    };
+
+    axios
+      .put(`${API_URL}/api/task/update/${data.id}`, UpdateData, {
+        withCredentials: true,
+        headers: { Authorization: `Bearer ${getToken()}` },
+      })
+      .then((response) => {
+        console.log(response);
+        setTitle("");
+        setDeadLine("");
+        setLevelPriority(null);
+        setDescription("");
+        setIsShowForm(false);
+      })
+      .catch((error) => console.log(error));
+    updateTask();
   };
 
   const handleClose = () => {

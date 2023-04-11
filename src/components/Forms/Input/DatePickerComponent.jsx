@@ -9,7 +9,7 @@ const DatePickerComponent = ({ label, value, setValue }) => {
     <div className="relative w-full">
       <label
         htmlFor={label}
-        className="text-lg text-nhask-secondary font-medium">
+        className="text-lg font-medium text-nhask-secondary">
         {label}
       </label>
       <div className="mt-2">
