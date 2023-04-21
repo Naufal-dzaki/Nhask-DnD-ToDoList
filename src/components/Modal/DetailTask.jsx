@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { TaskContext } from "../../pages/Home";
 import axios from "axios";
 import { API_URL } from "../../config/ApiUrl";
@@ -6,16 +6,16 @@ import { getToken } from "../../utils/CookiesHooks";
 import { XMarkIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import DateFormat from "../../utils/DateFormat";
 import BasicButton from "../Forms/Button/BasicButton";
+import BeatLoader from "react-spinners/BeatLoader";
 
 const DetailTask = ({
   isShowDetail,
   setIsShowDetail,
   setIsShowUpdate,
   setUpdateData,
-  setTaskData,
-  taskData,
   data,
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const { updateTask } = useContext(TaskContext);
 
   const handleClose = () => {
@@ -43,6 +43,7 @@ const DetailTask = ({
   };
 
   const handleDeleteTask = () => {
+    setIsLoading(true);
     axios
       .delete(`${API_URL}/api/task/delete/${data.id}`, {
         withCredentials: true,
@@ -51,14 +52,11 @@ const DetailTask = ({
       .then((response) => {
         console.log(response);
         setIsShowDetail(!isShowDetail);
+        setIsLoading(false);
       })
       .catch((response) => console.log(response));
     updateTask();
   };
-  // const handleDeleteTask = () => {
-  //   setTaskData(taskData.filter((task) => task.id !== data.id));
-  //   setIsShowDetail(!isShowDetail);
-  // };
 
   const handleClickUpdates = () => {
     setUpdateData(data);
@@ -107,8 +105,14 @@ const DetailTask = ({
             Edit Task
           </BasicButton>
           <BasicButton handleOnClickEvent={handleDeleteTask} tipe={"danger"}>
-            <TrashIcon className="w-4 h-4 mr-1 text-nhask-text" />
-            Delete Task
+            {isLoading ? (
+              <BeatLoader color="#E4EADF" size={7} />
+            ) : (
+              <>
+                <TrashIcon className="w-4 h-4 mr-1 text-nhask-text" />
+                Delete Task
+              </>
+            )}
           </BasicButton>
         </div>
       </div>

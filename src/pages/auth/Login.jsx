@@ -5,6 +5,7 @@ import { API_URL } from "../../config/ApiUrl";
 import { setToken, getToken } from "../../utils/CookiesHooks";
 import FloatInputText from "../../components/Forms/Input/FloatInputText";
 import FloatInputPassword from "../../components/Forms/Input/FloatInputPassword";
+import BeatLoader from "react-spinners/BeatLoader";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -41,7 +42,6 @@ const Login = () => {
       })
       .then((response) => {
         redirectLogin("/");
-        setIsLoading(false);
         const token = response.data.token;
         setToken(token);
       })
@@ -107,7 +107,7 @@ const Login = () => {
               className={`bg-nhask-primary w-full py-4 rounded-[15px] text-nhask-text text-xl ${
                 isLoading ? "cursor-progress" : "cursor-pointer"
               }`}>
-              Login
+              {isLoading ? <BeatLoader color="#E4EADF" size={7} /> : "Login"}
             </button>
           ) : (
             <button

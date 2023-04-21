@@ -11,6 +11,7 @@ import LevelPriorityComponent from "../Forms/Input/LevelPriorityComponent";
 import TextAreaComponent from "../Forms/Input/TextAreaComponent";
 import dayjs from "dayjs";
 import DateFormatNumber from "../../utils/DateFormatNumber";
+import BeatLoader from "react-spinners/BeatLoader";
 
 const FormTask = ({
   isShowForm,
@@ -18,8 +19,6 @@ const FormTask = ({
   data,
   formTitle,
   isUpdateForm,
-  setTaskData,
-  taskData,
 }) => {
   const [title, setTitle] = useState(isUpdateForm ? data.title : "");
   const [deadLine, setDeadLine] = useState(
@@ -31,11 +30,13 @@ const FormTask = ({
   const [description, setDescription] = useState(
     isUpdateForm ? data.description : ""
   );
+  const [isLoading, setIsLoading] = useState(false);
   const { updateTask } = useContext(TaskContext);
 
   const containerRef = useRef();
 
   const HandleAddTask = () => {
+    setIsLoading(true);
     const data = {
       title: title,
       deadline: DateFormatNumber(deadLine),
@@ -55,12 +56,14 @@ const FormTask = ({
         setLevelPriority(null);
         setDescription("");
         setIsShowForm(false);
+        setIsLoading(false);
       })
       .catch((response) => console.log(response));
     updateTask();
   };
 
   const HandleUpdateTask = () => {
+    setIsLoading(true);
     const UpdateData = {
       title: title,
       deadline: DateFormatNumber(deadLine),
@@ -73,13 +76,13 @@ const FormTask = ({
         withCredentials: true,
         headers: { Authorization: `Bearer ${getToken()}` },
       })
-      .then((response) => {
-        console.log(response);
+      .then(() => {
         setTitle("");
         setDeadLine("");
         setLevelPriority(null);
         setDescription("");
         setIsShowForm(false);
+        setIsLoading(false);
       })
       .catch((error) => console.log(error));
     updateTask();
@@ -87,6 +90,11 @@ const FormTask = ({
 
   const handleClose = () => {
     if (isShowForm) setIsShowForm(false);
+  };
+
+  const validator = () => {
+    if (title && deadLine && levelPriority && description) return true;
+    else return false;
   };
 
   return (
@@ -141,11 +149,19 @@ const FormTask = ({
         </div>
         {isUpdateForm ? (
           <BasicButton handleOnClickEvent={HandleUpdateTask} tipe={"default"}>
-            Update Task
+            {isLoading ? (
+              <BeatLoader color="#E4EADF" size={7} />
+            ) : (
+              "Update Task"
+            )}
           </BasicButton>
         ) : (
           <BasicButton handleOnClickEvent={HandleAddTask} tipe={"default"}>
-            Create Task
+            {isLoading ? (
+              <BeatLoader color="#E4EADF" size={7} />
+            ) : (
+              "Create Task"
+            )}
           </BasicButton>
         )}
       </div>

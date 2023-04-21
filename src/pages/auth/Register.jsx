@@ -5,6 +5,7 @@ import axios from "axios";
 import { API_URL } from "../../config/ApiUrl";
 import { useNavigate, Navigate } from "react-router-dom";
 import { getToken } from "../../utils/CookiesHooks";
+import BeatLoader from "react-spinners/BeatLoader";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -120,7 +121,7 @@ const Register = () => {
               className={`bg-nhask-primary w-full py-4 rounded-[15px] text-nhask-text text-2xl ${
                 isLoading ? "cursor-progress" : "cursor-pointer"
               }`}>
-              Register
+              {isLoading ? <BeatLoader color="#E4EADF" size={7} /> : "Register"}
             </button>
           ) : (
             <button

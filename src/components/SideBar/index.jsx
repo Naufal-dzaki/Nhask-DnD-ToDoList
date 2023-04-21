@@ -17,6 +17,7 @@ const SideBar = ({
   taskData,
   isLoading,
   setIsLoading,
+  Username,
 }) => {
   const [isShowLogout, setIsShowLogout] = useState(false);
   const sideBarRef = useRef();
@@ -81,7 +82,7 @@ const SideBar = ({
             <div className="flex items-center my-6">
               <UserCircleIcon className="w-[72px] h-[72px] text-nhask-secondary mr-3" />
               <p className="max-w-[120px] text-nhask-text text-xl font-medium">
-                Welcome, Naufal!
+                Welcome, {Username}!
               </p>
               <div className="flex" ref={logoutRef}>
                 <EllipsisVerticalIcon

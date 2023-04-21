@@ -1,9 +1,15 @@
 import React from "react";
 
-const BasicButton = ({ handleOnClickEvent, parameter, children, tipe }) => {
+const BasicButton = ({
+  handleOnClickEvent,
+  parameter,
+  children,
+  tipe,
+  validation,
+}) => {
   const handleBgButton = (tipe) => {
     if (tipe === "danger") {
-      return "bg-nhask-danger";
+      return `bg-nhask-danger`;
     } else if (tipe === "warning") {
       return "bg-nhask-alert";
     } else if (tipe === "default") {

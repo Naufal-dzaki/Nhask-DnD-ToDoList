@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useReducer, createContext } from "react";
 import axios from "axios";
+import ClockLoader from "react-spinners/ClockLoader";
 import { API_URL } from "../../config/ApiUrl";
 import { Navigate } from "react-router-dom";
 import { getToken } from "../../utils/CookiesHooks";
@@ -46,9 +47,22 @@ const Home = () => {
   const [detailData, setDetailData] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [userAuth, setUserAuth] = useState([]);
   const [taskChanged, updateTask] = useReducer((x) => x + 1, 0);
 
-  const getData = () => {
+  const getData = async () => {
+    setIsLoading(true);
+
+    await axios
+      .get(`${API_URL}/api/auth/user`, {
+        withCredentials: true,
+        headers: { Authorization: `Bearer ${getToken()}` },
+      })
+      .then((response) => {
+        setUserAuth(response.data.user.name);
+        console.log(response.data.user.name);
+      });
+
     axios
       .get(`${API_URL}/api/task`, {
         withCredentials: true,
@@ -56,7 +70,7 @@ const Home = () => {
       })
       .then((response) => {
         setTaskData(response.data.data);
-        console.log(response.data.data);
+        setIsLoading(false);
       })
       .catch((response) => console.log(response));
   };
@@ -92,6 +106,7 @@ const Home = () => {
           taskData={taskData}
           isLoading={isLoading}
           setIsLoading={setIsLoading}
+          Username={userAuth}
         />
 
         {/* pop up */}
@@ -167,6 +182,11 @@ const Home = () => {
             </DndProvider>
           </div>
         </PerfectScrollbar>
+        {isLoading && !isShowCreate && !isShowDetail && !isShowUpdate && (
+          <div className="fixed z-50 top-0 left-0 w-screen h-screen backdrop-blur-sm grid place-content-center">
+            <ClockLoader color="#3AB79E" />
+          </div>
+        )}
       </div>
     </TaskContext.Provider>
   );
